@@ -12,28 +12,23 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.static(app.directory+'/'));
 
-/* Use node's http module to create a server and start it listening on
- * the given port and IP. */
-
-//var requestListener =
-
-// app.get('/', function(req,res){
-	// res.render('index');
-// });
-
 app.get('/api/url', function(req, res){
   var input = req.query.url;
-  var youtubePatt = /youtube/g;
-  var youtubeVidPatt = /v=/g;
-  var linkPatt = /http|https/g;
+  var youtubePatt = /youtube/i;
+  var youtubeVidPatt = /v=/i;
+  var linkPatt = /http/i;
+  var link = input;
+
 	// Prepends http if it's not already in the string
   if (!linkPatt.test(input)){
   	input = 'http://'+input;
+  	link = 'http://'+link;
   }
 	request(input, function(err, resp, body){
 	  $ = cheerio.load(body);
 	  var title = $('title').text() || undefined;
 	  var video_id = undefined;
+
 	  // If it's a youtube link
 		if (youtubePatt.test(input) && youtubeVidPatt.test(input)){
 		  video_id = input.split('v=')[1];
@@ -48,11 +43,8 @@ app.get('/api/url', function(req, res){
 		  	img = input + img;
 		  }
 		};
-	  // if (title === undefined && img === undefined && video_id === undefined){
-	  	// res.send(null);
-	  // } else {
-  	res.send({title: title, imageUrl: img, video_id: video_id})
-	  // }
+		if (!img && !video_id) link = undefined;
+  	res.send({title: title, imageUrl: img, video_id: video_id, link: link})
 	});
 });
 
