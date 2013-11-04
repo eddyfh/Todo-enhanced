@@ -1,7 +1,7 @@
 Enhanced todo list
 ========
 
-Basic todo list with video and link support using Angular, Node, Express, Cheerio, and Request
+Basic todo list with video and link support using Angular, Node, Express, Cheerio, and Request. Built using the TodoMVC app as a starting point (http://todomvc.com).
 
 ## Quick Install
 
