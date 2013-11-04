@@ -239,15 +239,19 @@ label[for='toggle-all'] {
 	position: relative;
 }
 
-#todo-list li label {
+#todo-list li label, #todo-list li p, #todo-list li img, #todo-list iframe {
 	white-space: pre;
 	word-break: break-word;
-	padding: 15px 60px 15px 15px;
+	padding: 15px 60px 10px 15px;
 	margin-left: 45px;
 	display: block;
 	line-height: 1.2;
 	-webkit-transition: color 0.4s;
 	transition: color 0.4s;
+}
+img {
+	max-width: 480px;
+	max-height: 270px;
 }
 
 #todo-list li.completed label {

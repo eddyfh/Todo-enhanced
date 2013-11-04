@@ -5,6 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>AngularJS • TodoMVC</title>
 		<link rel="stylesheet" href="bower_components/todomvc-common/base.css">
+		<link rel="stylesheet" href="main.css">
 		<style>[ng-cloak] { display: none; }</style>
 	</head>
 	<body>
@@ -22,13 +23,42 @@
 					<li ng-repeat="todo in todos | filter:statusFilter" ng-class="{completed: todo.completed, editing: todo == editedTodo}">
 						<div class="view">
 							<input class="toggle" type="checkbox" ng-model="todo.completed">
-							<label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
+							<label ng-show='!todo.urlTitle' ng-dblclick="editTodo(todo)">{{todo.title}}
+							</label>
+							<a href='{{todo.title}}'><p>{{todo.urlTitle}}</p></a>
+							<img ng-show='todo.urlImage' src='{{todo.urlImage}}'/>
+							<iframe ng-show='todo.video_id' id="{{$index}}" type="text/html" width="480" height="270"
+						  src="http://www.youtube.com/embed/{{todo.video_id}}"
+						  frameborder="0"></iframe>
+							<!-- <div id='player'></div> -->
+								<!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+						    <!-- <div id="player"></div> -->
+						    
+								<!-- <iframe id="ytplayer" type="text/html" width="320" height="180"
+								  src="http://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1"
+								  frameborder="0"/> -->
 							<button class="destroy" ng-click="removeTodo(todo)"></button>
 						</div>
 						<form ng-submit="doneEditing(todo)">
 							<input class="edit" ng-model="todo.title" todo-escape="revertEditing(todo)" todo-blur="doneEditing(todo)" todo-focus="todo == editedTodo">
 						</form>
 					</li>
+					<!--<script>
+						      // 2. This code loads the IFrame Player API code asynchronously.
+						      var tag = document.createElement('script');
+
+						      tag.src = "https://www.youtube.com/iframe_api";
+						      var firstScriptTag = document.getElementsByTagName('script')[0];
+						      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+						      // 3. This function creates an <iframe> (and YouTube player)
+						      //    after the API code downloads.
+						      
+
+						      
+						      
+						    </script>
+						  -->
 				</ul>
 			</section>
 			<footer id="footer" ng-show="todos.length" ng-cloak>
@@ -67,5 +97,41 @@
 		<script src="js/directives/todoFocus.js"></script>
 		<script src="js/directives/todoBlur.js"></script>
 		<script src="js/directives/todoEscape.js"></script>
+    
+		<script>
+
+   //    function onYouTubeIframeAPIReady() {
+			// 	players['one'] = new YT.Player('player', {
+		 //      height: '270',
+		 //      width: '480',
+		 //      videoId: 'zlwUB4lisyk',
+		 //      playerVars: { 'autoplay': 0 },
+		 //      events: {
+		 //        'onReady': onPlayerReady,
+		 //        'onStateChange': onPlayerStateChange
+		 //      }
+		 //    });
+			// };
+      // var tag = document.createElement('script');
+
+      // tag.src = "https://www.youtube.com/iframe_api";
+      // var firstScriptTag = document.getElementsByTagName('script')[0];
+      // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // var players = {};
+      // function onPlayerReady(event) {
+      //   event.target.playVideo();
+      // }
+      // var done = false;
+      // function onPlayerStateChange(event) {
+      //   if (event.data == YT.PlayerState.PLAYING && !done) {
+      //     setTimeout(stopVideo, 6000);
+      //     done = true;
+      //   }
+      // }
+      // function stopVideo() {
+      //   player.stopVideo();
+      // }
+    </script>
 	</body>
 </html>

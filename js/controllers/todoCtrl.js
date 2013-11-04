@@ -6,7 +6,7 @@
  * - retrieves and persists the model via the todoStorage service
  * - exposes the model to the template and provides event handlers
  */
-todomvc.controller('TodoCtrl', function TodoCtrl($scope, $location, todoStorage, filterFilter) {
+todomvc.controller('TodoCtrl', function TodoCtrl($scope, $location, todoStorage, filterFilter, $http) {
 	var todos = $scope.todos = todoStorage.get();
 
 	$scope.newTodo = '';
@@ -32,19 +32,138 @@ todomvc.controller('TodoCtrl', function TodoCtrl($scope, $location, todoStorage,
 			{ completed: false } : (path === '/completed') ?
 			{ completed: true } : null;
 	});
+	// $scope.players = {};
+	// var tag = document.createElement('script');
+
+  // tag.src = "https://www.youtube.com/iframe_api";
+  // var firstScriptTag = document.getElementsByTagName('script')[0];
+  // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	// var players = {};
+	// $scope.player = 'player';
+	// function onYouTubeIframeAPIReady() {
+	// 	players['one'] = new YT.Player('player', {
+ //      height: '270',
+ //      width: '480',
+ //      playerVars: { 'autoplay': 0 },
+ //      videoId: 'zlwUB4lisyk',
+ //      events: {
+ //        'onReady': onPlayerReady,
+ //        'onStateChange': onPlayerStateChange
+ //      }
+ //    });
+	// };
+	// var players = {};
+  // function onPlayerReady(event) {
+  //   event.target.playVideo();
+  // }
+  // var done = false;
+  // function onPlayerStateChange(event) {
+  //   if (event.data == YT.PlayerState.PLAYING && !done) {
+  //     setTimeout(stopVideo, 6000);
+  //     done = true;
+  //   }
+  // }
+  // function stopVideo() {
+  //   player.stopVideo();
+  // }
+
 
 	$scope.addTodo = function () {
 		var newTodo = $scope.newTodo.trim();
 		if (!newTodo.length) {
 			return;
 		}
-
-		todos.push({
-			title: newTodo,
-			completed: false
+		// var param = /youtube/g;
+		// if (param.test(newTodo)){
+		//   var video_id = newTodo.split('v=')[1];
+		//   var ampersandPosition = video_id.indexOf('&');
+		// 	if(ampersandPosition != -1) {
+		// 	  video_id = video_id.substring(0, ampersandPosition);
+		// 	}
+		// 	todos.push({
+		// 		title: newTodo,
+		// 		video_id: video_id,
+		// 		completed: false
+		// 	});
+		// }
+		$http({method: 'GET', url: '/api/url', params: {url: newTodo}}).success(function(resp){
+				todos.push({
+				title: newTodo,
+				urlTitle: resp.title,
+				urlImage: resp.imageUrl,
+				video_id: resp.video_id,
+				completed: false
+			});
 		});
 
+
 		$scope.newTodo = '';
+
+		// players[todos.length] = new YT.Player('player', {
+	 //    height: '270',
+	 //    width: '480',
+	 //    playerVars: { 'autoplay': 0 },
+	 //    videoId: 'zlwUB4lisyk',
+	 //    events: {
+	 //      'onReady': onPlayerReady,
+	 //      'onStateChange': onPlayerStateChange
+	 //    }
+	 //  });
+
+
+
+		// var player;
+  //   // 4. The API will call this function when the video player is ready.
+  //   var onPlayerReady = function(event) {
+  //     event.target.playVideo();
+  //   };
+  //   var done = false;
+  //   var stopVideo = function() {
+  //     player.stopVideo();
+  //   };
+  //   var onPlayerStateChange = function(event) {
+  //     if (event.data == YT.PlayerState.PLAYING && !done) {
+  //       setTimeout(stopVideo, 6000);
+  //       done = true;
+  //     }
+  //   }
+  //   var onYouTubeIframeAPIReady = function() {
+  //     player = new YT.Player('player', {
+  //       height: '270',
+  //       width: '480',
+  //       videoId: 'M7lc1UVf-VE',
+  //       events: {
+  //         'onReady': onPlayerReady,
+  //         'onStateChange': onPlayerStateChange
+  //       }
+  //     });
+  //   };
+  //   onYouTubeIframeAPIReady();
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+		// for (var i = 0; i < $scope.todos.length; i++){
+	 //  	var objkey = 'player'+i;
+		//   var onYouTubeIframeAPIReady = function() {
+		//     $scope.players[objkey] = new YT.Player(objkey, {
+		//       height: '270',
+		//       width: '480',
+		//       videoId: 'zlwUB4lisyk',
+		//       events: {
+		//         'onReady': onPlayerReady,
+		//         'onStateChange': onPlayerStateChange
+		//       }
+		//     });
+		//   }
+		//   onYouTubeIframeAPIReady();
+		//   var stopVideo = function() {
+		//     $scope.players[objkey].stopVideo();
+		//   }
+		//   stopVideo();
+		// }
+	};
+	$scope.newPlayer = function(index){
 	};
 
 	$scope.editTodo = function (todo) {
